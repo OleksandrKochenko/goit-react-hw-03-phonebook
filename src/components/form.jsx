@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 class ContactForm extends Component {
@@ -35,7 +36,6 @@ class ContactForm extends Component {
         <label htmlFor={this.nameId}>Name</label>
         <br />
         <input
-          style={{ backgroundColor: 'darkgray' }}
           type="text"
           value={this.state.name}
           name="name"
@@ -50,7 +50,6 @@ class ContactForm extends Component {
         <label htmlFor={this.telId}>Phone</label>
         <br />
         <input
-          style={{ backgroundColor: 'darkgray' }}
           type="tel"
           value={this.state.tel}
           name="tel"
@@ -64,9 +63,8 @@ class ContactForm extends Component {
         <br />
         <button
           style={{
-            padding: '5px',
-            color: '#010101',
-            backgroundColor: 'darkgray',
+            padding: '3px',
+            borderRadius: '5px',
             fontWeight: '700',
             cursor: 'pointer',
           }}
@@ -78,5 +76,9 @@ class ContactForm extends Component {
     );
   }
 }
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default ContactForm;

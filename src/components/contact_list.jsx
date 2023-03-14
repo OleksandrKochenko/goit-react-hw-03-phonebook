@@ -1,13 +1,25 @@
+import PropTypes from 'prop-types';
 import ContactItem from './contact_item';
-import shortid from 'shortid';
 
-export default function ContactList({ contacts }) {
+export default function ContactList({ contacts, handleClick }) {
   return (
     <ul>
       {contacts.map(item => {
-        const id = shortid.generate();
-        return <ContactItem key={id} name={item.name} tel={item.tel} />;
+        return (
+          <ContactItem
+            key={item.id}
+            name={item.name}
+            tel={item.tel}
+            id={item.id}
+            handleClick={handleClick}
+          />
+        );
       })}
     </ul>
   );
 }
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleClick: PropTypes.func.isRequired,
+};

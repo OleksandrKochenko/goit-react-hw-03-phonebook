@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 import ContactForm from './form';
 import ContactList from './contact_list';
 import Filter from './filter';
@@ -10,6 +11,8 @@ class App extends Component {
   };
 
   formSubmitHandler = data => {
+    const contactId = shortid.generate();
+    data.id = contactId;
     if (
       this.state.contacts.some(
         contact => contact.name.toLowerCase() === data.name.toLowerCase()
@@ -27,6 +30,20 @@ class App extends Component {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  handleDeleteBtn = e => {
+    const deletedId = e.currentTarget.name;
+    const deletedIndex = this.state.contacts.findIndex(
+      el => el.id === deletedId
+    );
+    this.setState(prevState => {
+      const prevContacts = prevState.contacts;
+      prevContacts.splice(deletedIndex, 1);
+      return {
+        contacts: [...prevContacts],
+      };
+    });
+  };
+
   render() {
     const filtredContacts = this.state.contacts.filter(contact =>
       contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
@@ -34,10 +51,7 @@ class App extends Component {
     return (
       <div
         style={{
-          height: '100vh',
           padding: '20px',
-          color: '#010101',
-          backgroundColor: 'darkgray',
         }}
       >
         <h1>Phonebook</h1>
@@ -45,7 +59,10 @@ class App extends Component {
 
         <h2>Contacts:</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter} />
-        <ContactList contacts={filtredContacts} />
+        <ContactList
+          contacts={filtredContacts}
+          handleClick={this.handleDeleteBtn}
+        />
       </div>
     );
   }
