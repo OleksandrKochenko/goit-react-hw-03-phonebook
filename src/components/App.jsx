@@ -10,9 +10,13 @@ class App extends Component {
   };
 
   formSubmitHandler = data => {
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, data],
-    }));
+    if (this.state.contacts.some(contact => contact.name === data.name)) {
+      alert(`${data.name} is already in contacts!`);
+    } else {
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, data],
+      }));
+    }
   };
 
   changeFilter = e => {
